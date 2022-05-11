@@ -17,7 +17,9 @@ public class FileScheduleAdapter
                 {
                     _models.Add(item.id, new List<ClassInstanceModel>());
                 }
-                var newItem = new ClassInstanceModel(DateTime.Parse(item.StartDate), DateTime.Parse(item.EndDate));
+                var startDate = DateTime.Parse(item.StartDate);
+                var endDate = DateTime.Parse(item.EndDate);
+                var newItem = new ClassInstanceModel(DateTime.Parse(item.StartDate), DateTime.Parse(item.EndDate), (endDate - startDate).Days);
                 _models[item.id].Add(newItem);
             }
         }
@@ -26,6 +28,17 @@ public class FileScheduleAdapter
     public ClassListModel GetClassList()
     {
         return new ClassListModel(_models);
+    }
+
+    public List<ClassInstanceModel>? GetScheduleForClass(string id)
+    {
+        if(_models.ContainsKey(id))
+        {
+            return _models[id];
+        } else
+        {
+            return null;
+        }
     }
 }
 

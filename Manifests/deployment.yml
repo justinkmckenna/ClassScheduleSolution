@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: schedule-api
+  namespace: courses
+spec:
+  replicas: 1 # how many pods do we want, could be 100, could use with a load balancer
+  selector:
+    matchLabels:
+      app: schedule-api
+  template:
+    metadata:
+      labels:
+        app: schedule-api
+    spec:
+      containers:
+      - name: schedule-api
+        image: mckennaman123/classscheduleapi:v0.2 # if we need to rollback just change this to v0.1 or similar
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 80

@@ -16,4 +16,15 @@ public class ScheduleController : ControllerBase
         var response = _fileScheduleAdapter.GetClassList();
         return Ok(response);
     }
+
+    [HttpGet("{courseId}")]
+    public async Task<ActionResult> GetById(string courseId)
+    {
+        var response = _fileScheduleAdapter.GetScheduleForClass(courseId);
+        return response switch
+        {
+            null => NotFound(),
+            _ => Ok(new { data = response })
+        };
+    }
 }
